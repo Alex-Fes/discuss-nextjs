@@ -4,7 +4,7 @@ import * as actions from "@/src/actions";
 import Profile from "@/src/components/profile";
 
 export default async function Home() {
-    // const session = await auth()
+    // const session = await auth() // use in server component
 
     return (
         <div>

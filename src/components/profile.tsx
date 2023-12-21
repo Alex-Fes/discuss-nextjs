@@ -2,7 +2,7 @@
 import {useSession} from "next-auth/react";
 
 export default function Profile() {
-    const session = useSession()
+    const session = useSession() // use in client component
 
     if (session.data?.user) {
         return <div>
