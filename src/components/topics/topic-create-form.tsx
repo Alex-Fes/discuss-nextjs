@@ -9,7 +9,7 @@ import {
     Textarea,
 } from "@nextui-org/react"
 import * as actions from "@/src/actions";
-import { useFormState } from "react-dom";
+import {useFormState} from "react-dom";
 
 export default function TopicCreateForm() {
     const [formState, action] = useFormState(actions.createTopic, {errors: {}})
@@ -39,6 +39,10 @@ export default function TopicCreateForm() {
                             errorMessage={formState.errors.description?.join(', ')}
                         />
                         <Button type={'submit'}>Create</Button>
+                        {formState.errors._form
+                            ? <div
+                            className={'p-2 bg-red-200 border rounded border-red-400'}>{formState.errors._form?.join(', ')}</div>
+                            : null}
                     </div>
                 </form>
             </PopoverContent>
