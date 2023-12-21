@@ -12,7 +12,7 @@ import * as actions from "@/src/actions";
 import { useFormState } from "react-dom";
 
 export default function TopicCreateForm() {
-    const [formState, action] = useFormState(actions.createTopic, 5)//we should pass number of arguments here, typescript error
+    const [formState, action] = useFormState(actions.createTopic, {errors: {}})
     return (
         <Popover placement={'left'}>
             <PopoverTrigger>
