@@ -70,7 +70,7 @@ export async function createPost(formState: CreatePostFormState, formData: FormD
     //     }
     // }
 
-    revalidatePath(paths.topicShow(formData.get('topicSlug') as string))
+    // revalidatePath(paths.topicShow(formData.get('topicSlug') as string))
 
     return {
         errors: {}
