@@ -20,18 +20,22 @@ interface CreatePostFormState {
     }
 }
 
-export async function createPost(formState: CreatePostFormState, formData: FormData): Promise<CreatePostFormState> {
+export async function createPost(
+    slug: string,
+    formState: CreatePostFormState,
+    formData: FormData): Promise<CreatePostFormState> {
+    //validation data
     const result = createPostSchema.safeParse({
         title: formData.get('title'),
         content: formData.get('content'),
     })
-
     if (!result.success) {
         return {
             errors: result.error.flatten().fieldErrors
         }
     }
 
+//validation user auth
     const session = await auth()
     if (!session || !session.user) {
         return {
@@ -40,37 +44,18 @@ export async function createPost(formState: CreatePostFormState, formData: FormD
             }
         }
     }
+//check topic exists before creating post
+   const topic = await db.topic.findFirst({
+        where: { slug }
+    })
+    if (!topic) {
+        return {
+            errors: { _form: ['Topic not found'] }
+        }
+    }
 
-    let post: Post
-    // try {
-    //     post = await db.post.create({
-    //         data: {
-    //             title: result.data.title,
-    //             content: result.data.content,
-    //             topic: {
-    //                 connect: {
-    //                     slug: formData.get('topicSlug') as string,
-    //                 }
-    //             },
-    //         }
-    //     })
-    // } catch (error: unknown) {
-    //     if (error instanceof Error) {
-    //         return {
-    //             errors: {
-    //                 _form: [error.message]
-    //             }
-    //         }
-    //     } else {
-    //         return {
-    //             errors: {
-    //                 _form: ['Unknown error']
-    //             }
-    //         }
-    //     }
-    // }
+    //create post
 
-    // revalidatePath(paths.topicShow(formData.get('topicSlug') as string))
 
     return {
         errors: {}
