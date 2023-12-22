@@ -8,9 +8,9 @@ import paths from "@/src/paths";
 import {revalidatePath} from "next/cache";
 
 const createTopicSchema = z.object({
-    name: z.string().min(3).regex(/^[a-z0-9- ]+$/, {message: 'Must be lowercase letters, numbers, and dashes only'}),
+    name: z.string().min(3).regex(/^[a-zA-Z0-9-]+$/, {message: 'Must be lowercase letters, numbers, and dashes only'}).refine((value) => !/\s/.test(value), { message: 'Spaces are not allowed in the name'}),
     description: z.string().min(10),
-})
+});
 
 interface CreateTopicFormState {
     errors: {
@@ -18,7 +18,6 @@ interface CreateTopicFormState {
         description?: string[]
         _form?: string[]
     }
-
 }
 
 export async function createTopic(formState: CreateTopicFormState, formData: FormData): Promise<CreateTopicFormState> {
@@ -69,7 +68,7 @@ export async function createTopic(formState: CreateTopicFormState, formData: For
     revalidatePath('/')
     redirect(paths.topicShow(topic.slug))
 
-    return {
-        errors: {}
-    }
+    // return {
+    //     errors: {}
+    // }
 }
