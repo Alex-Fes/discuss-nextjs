@@ -8,7 +8,7 @@ import paths from "@/src/paths";
 import {revalidatePath} from "next/cache";
 
 const createTopicSchema = z.object({
-    name: z.string().min(3).regex(/^[a-z0-9-]+$/, {message: 'Must be lowercase letters, numbers, and dashes only'}),
+    name: z.string().min(3).regex(/^[a-z0-9- ]+$/, {message: 'Must be lowercase letters, numbers, and dashes only'}),
     description: z.string().min(10),
 })
 
