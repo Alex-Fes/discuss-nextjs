@@ -6,6 +6,7 @@ import {z} from "zod";
 import {db} from "@/src/db";
 import {revalidatePath} from "next/cache";
 import paths from "@/src/paths";
+import {redirect} from "next/navigation";
 
 const createPostSchema = z.object({
     title: z.string().min(3),
@@ -45,21 +46,44 @@ export async function createPost(
         }
     }
 //check topic exists before creating post
-   const topic = await db.topic.findFirst({
-        where: { slug }
+    const topic = await db.topic.findFirst({
+        where: {slug}
     })
     if (!topic) {
         return {
-            errors: { _form: ['Topic not found'] }
+            errors: {_form: ['Topic not found']}
         }
     }
 
     //create post
+    let post: Post
+    try {
+        post = await db.post.create({
+            data: {
+                title: result.data.title,
+                content: result.data.content,
+                topicId: topic.id,
+                userId: session.user.id,
+            }
+        })
 
-
-    return {
-        errors: {}
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            return {
+                errors: {
+                    _form: [error.message]
+                }
+            }
+        } else {
+            return {
+                errors: {
+                    _form: ['Something went wrong']
+                }
+            }
+        }
     }
 
-    //todo: revalidate the topic show page
+
+    revalidatePath(paths.topicShow(slug))
+    redirect(paths.postShow(slug, post.id))
 }
