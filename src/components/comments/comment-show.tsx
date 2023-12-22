@@ -1,13 +1,12 @@
 import Image from "next/image";
-import { Button } from "@nextui-org/react";
 import CommentCreateForm from "@/src/components/comments/comment-create-form";
+import {CommentWithAuthor} from "@/src/db/queries/comments";
 
 interface CommentShowProps {
   commentId: string;
-  comments: any[];
+  comments: CommentWithAuthor[];
 }
 
-// TODO: Get a list of comments
 export default function CommentShow({ commentId, comments }: CommentShowProps) {
   const comment = comments.find((c) => c.id === commentId);
 
