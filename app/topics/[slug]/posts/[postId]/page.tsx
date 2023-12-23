@@ -3,7 +3,6 @@ import PostShow from "@/src/components/posts/post-show";
 import CommentList from "@/src/components/comments/comment-list";
 import CommentCreateForm from "@/src/components/comments/comment-create-form";
 import paths from "@/src/paths";
-import {fetchCommentsByPostId} from "@/src/db/queries/comments";
 
 interface PostShowPageProps {
     params: {
