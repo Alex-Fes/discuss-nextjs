@@ -1,6 +1,7 @@
-import {Input, Navbar, NavbarBrand, NavbarContent, NavbarItem,} from '@nextui-org/react'
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem,} from '@nextui-org/react'
 import Link from 'next/link'
 import HeaderAuth from "@/src/components/header-auth";
+import SearchInput from "@/src/components/search-input";
 
 export default async function Header() {
    // const session = await auth() // use in server component, this makes the home page dynamic
@@ -11,7 +12,7 @@ export default async function Header() {
             </NavbarBrand>
             <NavbarContent justify={'center'}>
                 <NavbarItem>
-                    <Input placeholder={'Search'}/>
+                    <SearchInput/>
                 </NavbarItem>
             </NavbarContent>
             <NavbarContent justify={'end'}>
